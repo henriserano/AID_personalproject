@@ -1,0 +1,17 @@
+# Web Framework
+fastapi==0.115.12
+uvicorn[standard]==0.34.1
+
+# HTTP Requests
+requests==2.32.3
+
+# Environment Variables
+python-dotenv==1.0.1
+
+# CrewAI for LLM orchestration
+crewai==0.95.2
+
+# Additional dependencies that crewai might need
+pydantic==2.10.6
+langchain==0.3.18
+langchain-openai==0.3.7
