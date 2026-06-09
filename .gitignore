@@ -2,6 +2,10 @@
 .env
 *.env
 
+AGENTS.md
+CLAUDE.md
+*.AGENTS.md
+*.CLAUDE.md
 # Python
 __pycache__/
 *.py[cod]
@@ -85,10 +89,6 @@ Thumbs.db
 *.seed
 *.pid.lock
 
-# Dataset (si trop volumineux)
-# Dataset/*.csv
-# Dataset/*.json
-
 # Temporary files
 tmp/
 temp/
@@ -98,6 +98,3 @@ temp/
 .idea/
 *.sublime-project
 *.sublime-workspace
-
-# Testing
-coverage/
