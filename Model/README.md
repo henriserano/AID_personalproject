@@ -34,6 +34,7 @@ Model/
 ## 🚀 Quick Start
 
 ### 1. Configuration
+
 ```bash
 cp ../.env.example .env
 nano .env
@@ -51,6 +52,7 @@ API_AUTH_KEY=your-secret-api-key-for-jwt
 ```
 
 ### 2. Installation
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -58,12 +60,14 @@ pip install -r requirements.txt
 ### 3. Lancement
 
 **Python local (dev)**
+
 ```bash
 uvicorn main:app --reload
 # ou: make dev
 ```
 
 **Docker (prod)**
+
 ```bash
 docker-compose up -d
 # ou: make up
@@ -73,15 +77,16 @@ docker-compose up -d
 
 ## 🔐 Authentification JWT
 
-### Obtenir un token
+### Obtenir un token (oui c'est la vrai clé lol)
 
 ```bash
 curl -X POST http://localhost:8000/api/v1/auth/token \
   -H "Content-Type: application/json" \
-  -d '{"api_key": "your-secret-api-key-for-jwt"}'
+  -d '{"api_key": "la cle magique de DTS"}'
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -96,7 +101,7 @@ curl -X POST http://localhost:8000/api/v1/auth/token \
 # Obtenir le token
 TOKEN=$(curl -s -X POST http://localhost:8000/api/v1/auth/token \
   -H "Content-Type: application/json" \
-  -d '{"api_key": "your-secret-api-key-for-jwt"}' \
+  -d '{"api_key":"la cle magique de DTS"}' \
   | jq -r '.access_token')
 
 # Utiliser le token pour accéder aux données
@@ -113,14 +118,17 @@ curl http://localhost:8000/api/v1/teams \
 ### Authentification (pas de JWT requis)
 
 #### POST /api/v1/auth/token
+
 Obtenir un JWT token avec API key dans le body
 
 **Request:**
+
 ```json
-{"api_key": "your-secret-api-key-for-jwt"}
+{"api_key": "la cle magique de DTS"}
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJ...",
@@ -130,26 +138,31 @@ Obtenir un JWT token avec API key dans le body
 ```
 
 #### POST /api/v1/auth/token-header
+
 Obtenir un JWT token avec API key dans le header
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:8000/api/v1/auth/token-header \
-  -H "X-API-Key: your-secret-api-key-for-jwt"
+  -H "X-API-Key: "la cle magique de DTS"
 ```
 
 ### Données (🔐 JWT requis)
 
 #### GET /api/v1/teams
+
 Équipes depuis football-data.org
 
 **Request:**
+
 ```bash
 curl http://localhost:8000/api/v1/teams \
   -H "Authorization: Bearer <TOKEN>"
 ```
 
 **Response:**
+
 ```json
 {
   "data": [...],
@@ -159,9 +172,11 @@ curl http://localhost:8000/api/v1/teams \
 ```
 
 #### GET /api/v1/leagues
+
 Ligues depuis api-sports.io
 
 **Response:**
+
 ```json
 {
   "data": [...],
@@ -184,10 +199,12 @@ Ligues depuis api-sports.io
 ### CORS par environnement
 
 **Development**
+
 - Origines: `localhost:3000`, `localhost:3001`
 - Swagger: ✅ Activé
 
 **Production**
+
 - Origines: Uniquement `FRONTEND_URL`
 - Swagger: ❌ Désactivé
 - JWT obligatoire
@@ -203,6 +220,7 @@ Ligues depuis api-sports.io
 ## 🐳 Docker
 
 ### Dockerfile (21 lignes)
+
 ```dockerfile
 FROM python:3.13-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
@@ -217,6 +235,7 @@ CMD ["gunicorn", "main:app", "--workers", "4", "--worker-class", "uvicorn.worker
 ```
 
 ### Commandes
+
 ```bash
 docker-compose up -d         # Démarrer
 docker-compose logs -f       # Logs
@@ -315,6 +334,7 @@ NEXT_PUBLIC_API_AUTH_KEY=your-secret-api-key-for-jwt
 ## 🧪 Tests
 
 ### Test JWT complet
+
 ```bash
 ./test_jwt.sh
 ```
@@ -322,12 +342,14 @@ NEXT_PUBLIC_API_AUTH_KEY=your-secret-api-key-for-jwt
 ### Tests manuels
 
 **1. Sans token (doit échouer)**
+
 ```bash
 curl http://localhost:8000/api/v1/teams
 # → 403 Forbidden
 ```
 
 **2. Avec token (doit fonctionner)**
+
 ```bash
 TOKEN=$(curl -s -X POST http://localhost:8000/api/v1/auth/token \
   -H "Content-Type: application/json" \
@@ -343,16 +365,19 @@ curl http://localhost:8000/api/v1/teams \
 ## 🐛 Debug
 
 ### Module 'jose' not found
+
 ```bash
 pip install 'python-jose[cryptography]==3.3.0' 'passlib[bcrypt]==1.7.4'
 ```
 
 ### Invalid API key
+
 ```bash
 python -c "from config import settings; print(settings.API_AUTH_KEY)"
 ```
 
 ### Invalid or expired token
+
 - Token expiré (> 60 min)
 - Solution: Obtenir un nouveau token
 
@@ -378,6 +403,7 @@ passlib[bcrypt]==1.7.4         # 🔐 Hashing
 ## 🚢 Déploiement Production
 
 ### .env Production
+
 ```env
 ENVIRONMENT=production
 API_KEY_FOOT=prod_key
@@ -391,6 +417,7 @@ API_AUTH_KEY=<clé unique sécurisée>
 ```
 
 ### Générer des secrets sécurisés
+
 ```bash
 # JWT Secret
 openssl rand -hex 32
@@ -400,6 +427,7 @@ openssl rand -hex 24
 ```
 
 ### Lancer en production
+
 ```bash
 docker-compose up -d
 docker-compose logs backend
@@ -410,12 +438,14 @@ docker-compose logs backend
 ## 💡 Tips
 
 **Sécurité:**
+
 - ✅ Change `JWT_SECRET_KEY` en production (32+ chars)
 - ✅ Change `API_AUTH_KEY` en production
 - ✅ Utilise HTTPS uniquement en prod
 - ✅ Ne commit JAMAIS les secrets
 
 **Développement:**
+
 - `make dev` pour hot reload
 - Swagger: http://localhost:8000/docs
 - Test JWT: `./test_jwt.sh`
@@ -425,6 +455,7 @@ docker-compose logs backend
 ## 📝 Changelog
 
 ### v1.1.0 (2026-06-10)
+
 - 🔐 **Authentification JWT ajoutée**
 - POST /api/v1/auth/token
 - POST /api/v1/auth/token-header
@@ -432,6 +463,7 @@ docker-compose logs backend
 - JWT_GUIDE.md créé
 
 ### v1.0.0 (2026-06-10)
+
 - ✅ Backend FastAPI modulaire
 - ✅ Endpoints /teams et /leagues
 - ✅ CORS sécurisé
