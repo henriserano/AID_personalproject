@@ -1,15 +1,21 @@
 # Environment variables
 .env
 *.env
+.env.example
+.env.local
+.env.example
+.env.*.local
+.env.example
 
-AGENTS.md
-CLAUDE.md
-*.AGENTS.md
-*.CLAUDE.md
+# Documentation (sauf README.md)
+*.md
+!README.md
+!**/README.md
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
+./test_jwt.sh
 *.so
 .Python
 build/
@@ -93,7 +99,8 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
-
+.claude
+.Dataset
 # IDE
 .idea/
 *.sublime-project

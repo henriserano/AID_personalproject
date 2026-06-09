@@ -1,0 +1,19 @@
+# Core FastAPI
+fastapi==0.115.12
+uvicorn[standard]==0.34.1
+
+# HTTP Client
+requests==2.32.3
+
+# Configuration
+python-dotenv==1.0.1
+
+# Data validation
+pydantic==2.10.6
+
+# ASGI Server
+gunicorn==23.0.0
+
+# Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
